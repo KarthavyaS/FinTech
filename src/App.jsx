@@ -18,7 +18,7 @@ function AppContent() {
   if (!isLoggedIn) {
     return (
       <main className="flex-grow flex flex-col items-center px-4 py-8 w-full">
-        {currentView === 'registerView' ? <Register /> : <Login />}
+        {currentView === 'landingView' ? <Landing /> : currentView === 'registerView' ? <Register /> : <Login />} 
       </main>
     );
   }
