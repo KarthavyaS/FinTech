@@ -16,7 +16,7 @@ function saveSubmissions(subs) {
 }
 
 export function AppProvider({ children }) {
-  const [currentView, setCurrentView] = useState('loginView');
+  const [currentView, setCurrentView] = useState('landingView');
   const [currentCategory, setCurrentCategory] = useState(null);
   const [currentScheme, setCurrentScheme] = useState(null);
   const [submissions, setSubmissions] = useState(loadSubmissions);

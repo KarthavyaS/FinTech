@@ -1,6 +1,7 @@
 import './App.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import { AppProvider, useApp } from './contexts/AppContext.jsx';
+import Landing from './pages/Landing.jsx';
 import MainLayout from './layouts/MainLayout.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
