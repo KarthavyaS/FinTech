@@ -10,15 +10,18 @@ import CategoryList from './pages/CategoryList.jsx';
 import DynamicForm from './pages/DynamicForm.jsx';
 import Submissions from './pages/Submissions.jsx';
 import Success from './pages/Success.jsx';
+import ClientDashboard from './pages/ClientDashboard.jsx';
+import AgentDashboard from './pages/AgentDashboard.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 function AppContent() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAdmin, isAgent, isClient } = useAuth();
   const { currentView } = useApp();
 
   if (!isLoggedIn) {
     return (
       <main className="flex-grow flex flex-col items-center px-4 py-8 w-full">
-        {currentView === 'landingView' ? <Landing /> : currentView === 'registerView' ? <Register /> : <Login />} 
+        {currentView === 'landingView' ? <Landing /> : currentView === 'registerView' ? <Register /> : <Login />}
       </main>
     );
   }
@@ -35,8 +38,18 @@ function AppContent() {
         return <Submissions />;
       case 'successView':
         return <Success />;
+      case 'clientDashboardView':
+        return <ClientDashboard />;
+      case 'agentDashboardView':
+        return <AgentDashboard />;
+      case 'adminDashboardView':
+        return <AdminDashboard />;
       case 'schemesView':
+        return <SchemesDashboard />;
       default:
+        if (isAdmin) return <AdminDashboard />;
+        if (isAgent) return <AgentDashboard />;
+        if (isClient) return <ClientDashboard />;
         return <SchemesDashboard />;
     }
   }

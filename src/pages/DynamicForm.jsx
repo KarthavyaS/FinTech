@@ -1,8 +1,10 @@
 import { useApp } from '../contexts/AppContext.jsx';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import { useState } from 'react';
 
 export default function DynamicForm() {
   const { currentCategory, currentScheme, openCategory, addSubmission, switchView } = useApp();
+  const { currentUser } = useAuth();
   const [formData, setFormData] = useState({});
 
   if (!currentCategory || !currentScheme) {
@@ -16,7 +18,7 @@ export default function DynamicForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    addSubmission(formData);
+    addSubmission(formData, currentUser?.id);
   }
 
   return (
