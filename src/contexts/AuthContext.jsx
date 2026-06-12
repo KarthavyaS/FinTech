@@ -13,6 +13,8 @@ const DEFAULT_USERS = [
 const OTP_EXPIRY_MS = 5 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 const OTP_COOLDOWN_S = 30;
+const DEMO_OTP = '123456';
+const DEMO_PHONES = ['9999999999', '8888888888', '7777777777', '8877665544', '7766554433'];
 
 function loadUsers() {
   try {
@@ -140,7 +142,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: `Wait ${remaining}s before requesting again` };
       }
     }
-    const otp = generateOtp();
+    const otp = DEMO_PHONES.includes(phone) ? DEMO_OTP : generateOtp();
     saveOtp({
       phone,
       otp,
