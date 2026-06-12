@@ -12,8 +12,11 @@ export default function SchemesDashboard() {
           <span className="text-xs font-semibold text-theme-brand uppercase tracking-widest">Our Offerings</span>
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-theme-primary">Services Offered</h2>
-        <p className="text-theme-muted mt-2">Select a category to view available schemes.</p>
-      </div>
+        <p className="text-theme-muted mt-2">
+  Select a category to view available schemes.
+</p>
+</div>
+        
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {CATEGORIES.map((c, idx) => (
           <div
@@ -27,7 +30,40 @@ export default function SchemesDashboard() {
               </svg>
             </div>
             <h3 className="text-lg font-bold text-theme-primary relative z-10">{c.name}</h3>
-            <p className="text-sm text-theme-muted mt-1 flex-grow relative z-10">{c.desc}</p>
+
+
+
+<div className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-theme-light text-theme-brand text-xs font-semibold relative z-10 w-fit">
+  {c.schemes.length} Schemes Available
+
+</div>
+
+
+
+<p className="text-sm text-theme-muted mt-3 relative z-10">
+
+  {c.desc}
+
+</p>
+
+
+
+<ul className="mt-4 space-y-2 text-sm text-theme-secondary relative z-10">
+
+  {c.schemes.slice(0, 3).map((scheme) => (
+
+    <li key={scheme.id} className="flex items-center gap-2">
+
+      <span className="w-1.5 h-1.5 rounded-full bg-theme-brand"></span>
+
+      {scheme.name}
+
+    </li>
+
+  ))}
+
+</ul>
+
             <div className="absolute top-0 right-0 w-24 h-24 bg-theme-gradient-light rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
         ))}

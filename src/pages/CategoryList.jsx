@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useApp } from '../contexts/AppContext.jsx';
 
 export default function CategoryList() {
@@ -32,19 +33,19 @@ export default function CategoryList() {
             onClick={() => openSchemeForm(s.id)}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-theme-gradient-light flex items-center justify-center text-theme-brand shrink-0">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h4 className="font-semibold text-theme-primary group-hover:text-theme-brand transition-colors">{s.name}</h4>
+                <h4 className="font-semibold text-theme-primary group-hover:text-theme-brand transition-colors">
+    {s.name}
+  </h4>
+              
             </div>
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-5 h-5 text-theme-muted group-hover:text-theme-brand transition-colors">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
             </svg>
           </div>
         ))}
-      </div>
+              </div>
+
     </div>
   );
 }
+     

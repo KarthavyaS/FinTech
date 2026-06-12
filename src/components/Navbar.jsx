@@ -15,8 +15,8 @@ export default function Navbar() {
   return (
     <header className="bg-theme-dark shadow-md py-3 px-4 md:px-8 flex items-center justify-between sticky top-0 z-50">
       <div className="flex items-center gap-3">
-        <img src="/logo.jpeg" alt="NexaFin" className="w-9 h-9 rounded-lg ring-2 ring-white/20" />
-        <h1 className="text-xl font-bold text-white tracking-tight">NexaFin</h1>
+        <img src="/logo.png" alt="FinTech" className="w-9 h-9 object-contain" />
+        <h1 className="text-xl font-bold text-white tracking-tight">FinTech</h1>
       </div>
       <div className="hidden md:flex items-center gap-6">
         {(isClient || isAgent) && (
