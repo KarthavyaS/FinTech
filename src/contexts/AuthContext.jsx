@@ -122,7 +122,10 @@ export function AuthProvider({ children }) {
 
   const updateUser = useCallback((userId, updates) => {
     setUsers(prev => prev.map(u => u.id === userId ? { ...u, ...updates } : u));
-  }, []);
+    if (currentUser?.id === userId) {
+      setCurrentUser(prev => prev ? { ...prev, ...updates } : prev);
+    }
+  }, [currentUser]);
 
   const findUserByEmailOrPhone = useCallback((email, phone) => {
     return users.find(u => (email && u.email === email) || (phone && u.phone === phone));

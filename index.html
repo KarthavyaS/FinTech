@@ -12,7 +12,25 @@
   <meta name="description" content="FinTech Secure Agent Portal" />
   <link rel="manifest" href="manifest.json" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#1D4ED8',
+            'brand-light': '#60A5FA',
+            'brand-secondary': '#2563EB',
+            success: '#10B981',
+            warning: '#F59E0B',
+            surface: '#FFFFFF',
+            background: '#F8FAFC',
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div id="root"></div>

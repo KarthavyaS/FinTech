@@ -35,7 +35,7 @@ export function AppProvider({ children }) {
   const [currentCategory, setCurrentCategory] = useState(null);
   const [currentScheme, setCurrentScheme] = useState(null);
   const [applications, setApplications] = useState(loadApps);
-  const [toast, setToast] = useState({ message: '', visible: false });
+  const [toast, setToast] = useState({ message: '', description: '', type: 'info', visible: false });
   const [chatMessages, setChatMessages] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showPredefinedBtns, setShowPredefinedBtns] = useState(true);
@@ -43,9 +43,9 @@ export function AppProvider({ children }) {
 
   useEffect(() => { saveApps(applications); }, [applications]);
 
-  const showToast = useCallback((message) => {
-    setToast({ message, visible: true });
-    setTimeout(() => setToast({ message: '', visible: false }), 2500);
+  const showToast = useCallback((message, type = 'info', description = '') => {
+    setToast({ message, type, description, visible: true });
+    setTimeout(() => setToast({ message: '', description: '', type: 'info', visible: false }), 3000);
   }, []);
 
   const switchView = useCallback((viewId) => {

@@ -279,3 +279,341 @@ select {
 @media (max-width: 360px) {
   .otp-digit { width: 40px; height: 48px; font-size: 20px !important; }
 }
+
+/* ===== Glassmorphism ===== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(29, 78, 216, 0.08);
+}
+
+.glass-dark {
+  background: rgba(30, 58, 138, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(29, 78, 216, 0.06);
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  box-shadow: 0 12px 48px rgba(29, 78, 216, 0.12);
+  transform: translateY(-2px);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+/* ===== Floating Background Shapes ===== */
+
+.bg-shape {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  filter: blur(80px);
+}
+
+.bg-shape-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(29, 78, 216, 0.15), transparent 70%);
+  top: -150px;
+  right: -100px;
+  animation: floatShape 20s ease-in-out infinite;
+}
+
+.bg-shape-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.12), transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  animation: floatShape 25s ease-in-out infinite reverse;
+}
+
+.bg-shape-3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.08), transparent 70%);
+  top: 50%;
+  left: 60%;
+  animation: floatShape 18s ease-in-out infinite 2s;
+}
+
+@keyframes floatShape {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ===== Gradient Text ===== */
+
+.gradient-text {
+  background: linear-gradient(135deg, #1D4ED8, #60A5FA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Glow Effects ===== */
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.15), 0 0 40px rgba(29, 78, 216, 0.05);
+}
+
+.glow-blue:hover {
+  box-shadow: 0 0 30px rgba(29, 78, 216, 0.25), 0 0 60px rgba(29, 78, 216, 0.1);
+}
+
+.glow-success {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.glow-warning {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+/* ===== Card Hover Lift ===== */
+
+.card-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(29, 78, 216, 0.12);
+}
+
+/* ===== Gradient Icon Container ===== */
+
+.icon-gradient {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.icon-gradient.blue {
+  background: linear-gradient(135deg, #DBEAFE, #EFF6FF);
+  color: #1D4ED8;
+}
+
+.icon-gradient.green {
+  background: linear-gradient(135deg, #D1FAE5, #ECFDF5);
+  color: #059669;
+}
+
+.icon-gradient.purple {
+  background: linear-gradient(135deg, #EDE9FE, #F5F3FF);
+  color: #7C3AED;
+}
+
+.icon-gradient.amber {
+  background: linear-gradient(135deg, #FEF3C7, #FFFBEB);
+  color: #D97706;
+}
+
+/* ===== Page Transition ===== */
+
+.page-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* ===== Scrollbar Styling ===== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(29, 78, 216, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 78, 216, 0.25);
+}
+
+/* ===== Notification Panel ===== */
+
+.notif-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 360px;
+  max-height: 420px;
+  overflow-y: auto;
+  z-index: 100;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== Notification Item ===== */
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+.notif-item:hover {
+  background: rgba(59, 130, 246, 0.04);
+}
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+/* ===== Bell Ring Animation ===== */
+
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(12deg); }
+  20%, 40% { transform: rotate(-12deg); }
+  50% { transform: rotate(6deg); }
+  60% { transform: rotate(-6deg); }
+  70% { transform: rotate(3deg); }
+  80% { transform: rotate(-3deg); }
+}
+
+.bell-ring {
+  animation: bellRing 0.6s ease-in-out;
+}
+
+/* ===== Count Up Placeholder ===== */
+
+.count-up {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* ===== Hero Section Gradient ===== */
+
+.hero-gradient {
+  background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 40%, #2563EB 70%, #60A5FA 100%);
+}
+
+.hero-glow {
+  position: relative;
+  overflow: hidden;
+}
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(96, 165, 250, 0.15), transparent 60%);
+  pointer-events: none;
+}
+
+/* ===== Empty State Illustration ===== */
+
+.empty-illustration {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #DBEAFE, #EFF6FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* ===== Quick Action Card ===== */
+
+.action-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 16px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(29,78,216,0.03), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.action-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(29, 78, 216, 0.15);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+.action-card:hover::before {
+  opacity: 1;
+}
+.action-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* ===== Ripple Effect ===== */
+
+@keyframes ripple {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ===== Tabular Numbers ===== */
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== Body Background ===== */
+
+body {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F0F9FF 50%, #EFF6FF 100%);
+  background-attachment: fixed;
+}
+
+/* ===== Language Switcher Active ===== */
+
+.lang-active {
+  background: rgba(59, 130, 246, 0.08);
+  color: #1D4ED8;
+}
+
+/* ===== Toast Overrides ===== */
+
+#toast {
+  display: none !important;
+}

@@ -20,7 +20,7 @@ function AppContent() {
 
   if (!isLoggedIn) {
     return (
-      <main className="flex-grow flex flex-col items-center px-4 py-8 w-full">
+      <main className="flex-grow flex flex-col items-center w-full">
         {currentView === 'landingView' ? <Landing /> : currentView === 'registerView' ? <Register /> : <Login />}
       </main>
     );
@@ -39,7 +39,8 @@ function AppContent() {
       case 'successView':
         return <Success />;
       case 'clientDashboardView':
-        return <ClientDashboard />;
+      case 'profileView':
+        return <ClientDashboard key={currentView} />;
       case 'agentDashboardView':
         return <AgentDashboard />;
       case 'adminDashboardView':
