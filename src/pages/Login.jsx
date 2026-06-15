@@ -42,7 +42,7 @@ export default function Login() {
       const role = findUserByEmailOrPhone(null, phone)?.role;
       if (role === 'admin') switchView('adminDashboardView');
       else if (role === 'agent') switchView('agentDashboardView');
-      else switchView('schemesView');
+      else switchView('clientDashboardView');
     } else {
       setOtpError(result.error);
       setLoading(false);
@@ -63,7 +63,7 @@ export default function Login() {
           Back Home
         </button>
         <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#2563EB] to-[#1E3A8A] shadow-lg flex items-center justify-center ring-4 ring-theme-light">
-          <img src="/logo.jpeg" alt="NexaFin" className="w-11 h-11 rounded-full" />
+          <img src="/logo.png" alt="NexaFin" className="w-11 h-11 rounded-full" />
         </div>
       </div>
 

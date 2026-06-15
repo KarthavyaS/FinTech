@@ -80,7 +80,7 @@ export default function Register() {
                 </svg>
               </div>
               <h2 className="text-2xl font-bold text-theme-primary">Create Account</h2>
-              <p className="text-theme-muted text-sm mt-2">Register as a client or agent</p>
+              <p className="text-theme-muted text-sm mt-2">Register as a client, agent, or admin</p>
             </div>
 
             <div className="space-y-4">
@@ -108,6 +108,7 @@ export default function Register() {
                 <select name="role" value={form.role} onChange={handleChange} className="input-field">
                   <option value="client">Client</option>
                   <option value="agent">Agent</option>
+                  <option value="admin">Admin</option>
                 </select>
               </div>
 
