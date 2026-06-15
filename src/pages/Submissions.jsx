@@ -19,7 +19,7 @@ const STATUS_LABELS = {
 };
 
 export default function Submissions() {
-  const { applications, deleteSubmission, updateStatus, assignAgent, addRemark, requestDocument, verifyDocuments, sendToAdminReview, selectBank, sendToBank, updateBankDecision, showToast } = useApp();
+  const { applications, deleteSubmission, updateStatus, assignAgent, addRemark, requestDocument, uploadDocument, verifyDocuments, sendToAdminReview, selectBank, sendToBank, updateBankDecision, showToast } = useApp();
   const { currentUser, isAdmin, isAgent, isClient, getUsersByRole } = useAuth();
   const [search, setSearch] = useState('');
   const [filterCat, setFilterCat] = useState('');
@@ -28,6 +28,7 @@ export default function Submissions() {
   const [remarkText, setRemarkText] = useState('');
   const [selectedAgent, setSelectedAgent] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
+  const [uploadTarget, setUploadTarget] = useState(null);
 
   let filtered = applications;
   if (isClient) {
@@ -224,6 +225,19 @@ export default function Submissions() {
                               </span>
                               <span>{d.name}</span>
                               <span className="text-theme-muted">({d.status})</span>
+                              {isClient && d.status === 'requested' && uploadTarget?.docName !== d.name && (
+                                <button onClick={() => setUploadTarget({ appId: s.id, docName: d.name })} className="ml-auto text-xs font-semibold text-[#2563EB] hover:text-[#1D4ED8] bg-[#EEF3FF] hover:bg-[#DBEAFE] px-2.5 py-1 rounded-md transition-all">
+                                  Upload
+                                </button>
+                              )}
+                              {isClient && d.status === 'requested' && uploadTarget?.docName === d.name && (
+                                <span className="ml-auto flex items-center gap-1.5">
+                                  <input type="file" onChange={(e) => { if (e.target.files?.[0]) { uploadDocument(s.id, d.name, e.target.files[0].name); setUploadTarget(null); } }} className="text-xs max-w-[120px]" />
+                                </span>
+                              )}
+                              {d.status === 'uploaded' && d.fileUrl && (
+                                <span className="ml-auto text-[10px] text-theme-muted truncate max-w-[120px]">{d.fileUrl}</span>
+                              )}
                             </div>
                           ))}
                         </div>

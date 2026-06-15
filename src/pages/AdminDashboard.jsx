@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApp } from '../contexts/AppContext.jsx';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
@@ -30,7 +30,7 @@ export default function AdminDashboard() {
     assignAgent, updateStatus, selectBank, sendToBank, updateBankDecision,
     requestDocument, verifyDocuments, addRemark
   } = useApp();
-  const { users, addAgent, toggleUserStatus, getUsersByRole, currentUser } = useAuth();
+  const { users, addAgent, toggleUserStatus, removeUser, getUsersByRole, currentUser } = useAuth();
 
   const [activeTab, setActiveTab] = useState('overview');
   const [newAgent, setNewAgent] = useState({ name: '', email: '', phone: '' });
@@ -39,6 +39,7 @@ export default function AdminDashboard() {
   const clients = getUsersByRole('client');
   const agents = getUsersByRole('agent');
   const allAgents = users.filter(u => u.role === 'agent');
+  const performanceAgents = allAgents.filter(a => a.name !== 'Agent Kumar' && a.name !== 'Priya Sharma');
   const pendingReview = applications.filter(a => a.status === 'ADMIN_REVIEW');
   const docsVerified = applications.filter(a => a.status === 'DOCUMENTS_VERIFIED');
   const sentToBank = applications.filter(a => a.status === 'SENT_TO_BANK');
@@ -61,7 +62,7 @@ export default function AdminDashboard() {
   }
 
   const stats = [
-    { label: 'Total Clients', value: clients.length, color: '#3B82F6', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+    { label: 'Total Clients', value: clients.filter(c => applications.some(a => a.clientId === c.id)).length, color: '#3B82F6', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
     { label: 'Total Agents', value: agents.length, color: '#8B5CF6', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
     { label: 'Total Applications', value: applications.length, color: '#F59E0B', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
     { label: 'Pending Reviews', value: pendingReview.length, color: '#EF4444', icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
@@ -232,7 +233,7 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {allAgents.map(agent => {
+                {performanceAgents.map(agent => {
                   const agentApps = applications.filter(a => a.agentId === agent.id);
                   return (
                     <tr key={agent.id} className="border-b border-theme-light hover:bg-theme-bg">
@@ -245,7 +246,7 @@ export default function AdminDashboard() {
                     </tr>
                   );
                 })}
-                {allAgents.length === 0 && (
+                {performanceAgents.length === 0 && (
                   <tr><td colSpan="6" className="text-center py-4 text-theme-muted">No agents found</td></tr>
                 )}
               </tbody>
@@ -376,7 +377,7 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {allAgents.map(agent => {
+                {allAgents.filter(a => a.name !== 'Agent Kumar' && a.name !== 'Priya Sharma').map(agent => {
                   const agentApps = applications.filter(a => a.agentId === agent.id);
                   return (
                     <tr key={agent.id} className="border-b border-theme-light hover:bg-theme-bg">
@@ -390,17 +391,25 @@ export default function AdminDashboard() {
                       </td>
                       <td className="text-center py-3 px-3 text-theme-secondary">{agentApps.length}</td>
                       <td className="text-center py-3 px-3">
-                        <button
-                          onClick={() => toggleUserStatus(agent.id)}
-                          className={`text-xs font-semibold px-3 py-1.5 rounded border transition-colors ${agent.isActive ? 'border-[#FCA5A5] text-[#EF4444] hover:bg-[#FEF2F2]' : 'border-[#6EE7B7] text-[#059669] hover:bg-[#ECFDF5]'}`}
-                        >
-                          {agent.isActive ? 'Deactivate' : 'Activate'}
-                        </button>
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => toggleUserStatus(agent.id)}
+                            className={`text-xs font-semibold px-3 py-1.5 rounded border transition-colors ${agent.isActive ? 'border-[#FCA5A5] text-[#EF4444] hover:bg-[#FEF2F2]' : 'border-[#6EE7B7] text-[#059669] hover:bg-[#ECFDF5]'}`}
+                          >
+                            {agent.isActive ? 'Deactivate' : 'Activate'}
+                          </button>
+                          <button
+                            onClick={() => { if (window.confirm(`Remove agent "${agent.name}"? This cannot be undone.`)) { removeUser(agent.id); showToast(`Agent "${agent.name}" removed`); } }}
+                            className="text-xs font-semibold px-3 py-1.5 rounded border border-[#FCA5A5] text-[#DC2626] hover:bg-[#FEF2F2] transition-colors"
+                          >
+                            Remove
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
                 })}
-                {allAgents.length === 0 && (
+                {allAgents.filter(a => a.name !== 'Agent Kumar' && a.name !== 'Priya Sharma').length === 0 && (
                   <tr><td colSpan="6" className="text-center py-8 text-theme-muted">No agents found</td></tr>
                 )}
               </tbody>
@@ -411,15 +420,58 @@ export default function AdminDashboard() {
     );
   }
 
+  useEffect(() => {
+    if (window._gtInit) return;
+    window._gtInit = true;
+
+    window.googleTranslateElementInit = () => {
+      try {
+        if (window.google && google.translate && google.translate.TranslateElement) {
+          const el = document.getElementById('google_translate_element');
+          if (!el || el.querySelector('.goog-te-combo')) return;
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,ta,te,ml,hi',
+            autoDisplay: false,
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          }, 'google_translate_element');
+        }
+      } catch (e) {}
+    };
+
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    script.onerror = () => {};
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="w-full">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-1 bg-theme-brand rounded-full" />
-          <span className="text-xs font-semibold text-theme-brand uppercase tracking-widest">Admin Dashboard</span>
+      <div className="flex items-center justify-end mb-4">
+        <div id="google_translate_element" />
+      </div>
+      <div className="hero-welcome animate-fade-in mb-8">
+        <div className="relative z-10">
+          <div className="flex items-center justify-between mb-4">
+            <span className="hero-badge">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Admin Dashboard
+            </span>
+            <div className="flex items-center gap-2 text-blue-200/80 text-xs">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Admin Portal
+            </div>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-tight">Admin Panel</h1>
+          <p className="text-blue-100/80 text-sm md:text-base max-w-xl mb-3">
+            Manage agents, review applications, and monitor performance.
+          </p>
         </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-theme-primary">Admin Panel</h2>
-        <p className="text-theme-muted mt-1">Manage agents, review applications, and monitor performance.</p>
       </div>
 
       {activeTab === 'overview' && renderOverview()}

@@ -13,6 +13,7 @@ import Success from './pages/Success.jsx';
 import ClientDashboard from './pages/ClientDashboard.jsx';
 import AgentDashboard from './pages/AgentDashboard.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import Profile from './pages/Profile.jsx';
 
 function AppContent() {
   const { isLoggedIn, isAdmin, isAgent, isClient } = useAuth();
@@ -46,6 +47,8 @@ function AppContent() {
         return <AdminDashboard />;
       case 'schemesView':
         return <SchemesDashboard />;
+      case 'profileView':
+        return <Profile />;
       default:
         if (isAdmin) return <AdminDashboard />;
         if (isAgent) return <AgentDashboard />;

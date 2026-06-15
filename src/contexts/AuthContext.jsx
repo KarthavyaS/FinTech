@@ -47,9 +47,20 @@ function generateOtp() {
 }
 
 export function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('nexafin_session'));
+  const [currentUser, setCurrentUser] = useState(() => {
+    const sid = localStorage.getItem('nexafin_session');
+    if (!sid) return null;
+    const users = loadUsers();
+    return users.find(u => u.id === sid) || null;
+  });
   const [users, setUsers] = useState(loadUsers);
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('nexafin_session', currentUser.id);
+    }
+  }, [currentUser]);
 
   useEffect(() => { saveUsers(users); }, [users]);
 
@@ -76,6 +87,7 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     setCurrentUser(null);
     setIsLoggedIn(false);
+    localStorage.removeItem('nexafin_session');
   }, []);
 
   const register = useCallback((data) => {
@@ -125,6 +137,15 @@ export function AuthProvider({ children }) {
   const updateUser = useCallback((userId, updates) => {
     setUsers(prev => prev.map(u => u.id === userId ? { ...u, ...updates } : u));
   }, []);
+
+  const removeUser = useCallback((userId) => {
+    setUsers(prev => prev.filter(u => u.id !== userId));
+  }, []);
+
+  const updateCurrentUser = useCallback((updates) => {
+    setCurrentUser(prev => prev ? { ...prev, ...updates } : prev);
+    setUsers(prev => prev.map(u => u.id === currentUser?.id ? { ...u, ...updates } : u));
+  }, [currentUser]);
 
   const findUserByEmailOrPhone = useCallback((email, phone) => {
     return users.find(u => (email && u.email === email) || (phone && u.phone === phone));
@@ -176,7 +197,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     isLoggedIn, login, loginByPhone, logout, currentUser, users,
-    register, addAgent, toggleUserStatus, getUsersByRole, getAllUsers, updateUser,
+    register, addAgent, toggleUserStatus, removeUser, getUsersByRole, getAllUsers, updateUser, updateCurrentUser,
     findUserByEmailOrPhone, sendOtp, verifyOtp,
     isAdmin: currentUser?.role === 'admin',
     isAgent: currentUser?.role === 'agent',

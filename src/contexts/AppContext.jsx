@@ -172,7 +172,9 @@ export function AppProvider({ children }) {
       const docs = (app.documents || []).map(d =>
         d.name === docName ? { ...d, status: 'uploaded', fileUrl, uploadedAt: new Date().toISOString() } : d
       );
-      return { ...app, documents: docs, notifications: addNotification(app, `Document uploaded: ${docName}`, 'agent') };
+      const notifs = addNotification(app, `Document uploaded: ${docName}`, 'agent');
+      const allUploaded = docs.every(d => d.status === 'uploaded');
+      return { ...app, documents: docs, notifications: notifs, ...(allUploaded && docs.length > 0 ? { status: 'DOCUMENTS_VERIFIED' } : {}) };
     }));
     showToast('Document uploaded');
   }, [showToast]);
